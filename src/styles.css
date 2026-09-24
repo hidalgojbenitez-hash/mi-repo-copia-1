@@ -158,5 +158,45 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-sans);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
   }
 }
+
+@utility surface-deep {
+  background-image: var(--gradient-deep);
+  color: var(--color-primary-foreground);
+}
+
+@utility card-elevated {
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-float);
+  }
+}
+
+@utility grid-dots {
+  background-image: radial-gradient(oklch(1 0 0 / 0.12) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+

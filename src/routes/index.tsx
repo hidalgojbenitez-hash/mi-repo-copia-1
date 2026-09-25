@@ -217,7 +217,7 @@ function Index() {
       <Navbar />
 
       {/* Hero */}
-      <section id="inicio" className="relative overflow-hidden surface-deep">
+      <section id="inicio" className="relative flex min-h-screen flex-col justify-center overflow-hidden surface-deep">
         <div className="absolute inset-0 grid-dots opacity-70" aria-hidden />
         <div className="absolute -right-24 -top-24 size-[26rem] rounded-full bg-accent/20 blur-3xl" aria-hidden />
         <div className="relative mx-auto max-w-6xl px-5 pb-24 pt-32 sm:pt-40">
@@ -318,7 +318,7 @@ function Index() {
       {/* Secciones inferiores con fondo claro */}
       <main className="bg-background text-foreground">
         {/* Contexto */}
-        <section id="contexto" className="mx-auto max-w-6xl px-5 py-24">
+        <section id="contexto" className="mx-auto flex w-full max-w-6xl flex-col justify-center px-5 py-24 min-h-[100svh]">
         <div className="grid items-start gap-12 lg:grid-cols-2">
           <Reveal>
             <SectionTitle eyebrow="01 — Contexto" title="Contexto y Problema" />
@@ -389,7 +389,7 @@ function Index() {
       </section>
 
       {/* Objetivo */}
-      <section id="objetivo" className="bg-secondary/50 py-24">
+      <section id="objetivo" className="flex min-h-[100svh] flex-col justify-center bg-secondary/50 py-24">
         <div className="mx-auto max-w-6xl px-5">
           <Reveal>
             <SectionTitle eyebrow="02 — Propósito" title="El Objetivo del Proyecto" />
@@ -410,7 +410,7 @@ function Index() {
       </section>
 
       {/* Metodología */}
-      <section id="metodologia" className="mx-auto max-w-6xl px-5 py-24">
+      <section id="metodologia" className="mx-auto flex w-full max-w-6xl flex-col justify-center px-5 py-24 min-h-[100svh]">
         <Reveal>
           <SectionTitle eyebrow="03 — Proceso" title="Desafíos y Metodología" />
         </Reveal>
@@ -436,7 +436,7 @@ function Index() {
       </section>
 
       {/* Hallazgos */}
-      <section id="hallazgos" className="bg-secondary/50 py-24">
+      <section id="hallazgos" className="flex min-h-[100svh] flex-col justify-center bg-secondary/50 py-24">
         <div className="mx-auto max-w-6xl px-5">
           <Reveal>
             <SectionTitle eyebrow="04 — Hallazgos" title="Descubrimientos del Análisis" />
@@ -463,7 +463,7 @@ function Index() {
       </section>
 
       {/* Aporte */}
-      <section id="aporte" className="py-24">
+      <section id="aporte" className="flex min-h-[100svh] flex-col justify-center py-24">
         <div className="mx-auto max-w-6xl px-5">
           <Reveal>
             <SectionTitle eyebrow="05 — Aporte" title="El Aporte del Proyecto" />
@@ -490,7 +490,7 @@ function Index() {
       </section>
 
       {/* Cierre */}
-      <section id="cierre" className="bg-secondary/50 py-24">
+      <section id="cierre" className="flex min-h-[100svh] flex-col justify-center bg-secondary/50 py-24">
         <div className="mx-auto max-w-6xl px-5">
           <Reveal>
             <div className="card-elevated overflow-hidden p-8 text-center sm:p-12">

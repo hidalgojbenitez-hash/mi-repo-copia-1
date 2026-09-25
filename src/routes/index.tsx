@@ -130,20 +130,30 @@ const APORTES = [
 /**
  * Logo persistente en la esquina superior izquierda
  */
-function HeaderLogo() {
+function HeaderLogo({ visible }: { visible: boolean }) {
   return (
-    <header className="fixed left-0 top-0 z-50 w-full p-4 pointer-events-none">
-      <div className="mx-auto flex max-w-6xl items-center px-1">
-        <div className="pointer-events-auto inline-flex items-center gap-2.5 rounded-xl border border-border/50 bg-background/70 p-2 pr-4 shadow-sm backdrop-blur-md transition-all hover:bg-background/90">
-          <span className="grid size-9 place-items-center rounded-lg bg-primary text-primary-foreground font-display text-sm font-bold">
-            33
-          </span>
-          <span className="text-sm font-semibold tracking-tight text-foreground">
-            Grupo 33 · Aprendizaje Automático · UGR
-          </span>
-        </div>
-      </div>
-    </header>
+    <AnimatePresence>
+      {visible && (
+        <motion.header
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+          className="fixed left-0 top-0 z-50 w-full p-4 pointer-events-none"
+        >
+          <div className="mx-auto flex max-w-6xl items-center px-1">
+            <div className="pointer-events-auto inline-flex items-center gap-2.5 rounded-xl border border-border/50 bg-background/70 p-2 pr-4 shadow-sm backdrop-blur-md transition-all hover:bg-background/90">
+              <span className="grid size-9 place-items-center rounded-lg bg-primary text-primary-foreground font-display text-sm font-bold">
+                33
+              </span>
+              <span className="text-sm font-semibold tracking-tight text-foreground">
+                Grupo 33 · Aprendizaje Automático · UGR
+              </span>
+            </div>
+          </div>
+        </motion.header>
+      )}
+    </AnimatePresence>
   );
 }
 
@@ -541,7 +551,7 @@ function Index() {
 
   return (
     <main className="relative h-[100svh] w-full overflow-hidden bg-background text-foreground">
-      <HeaderLogo />
+      <HeaderLogo visible={page > 0} />
 
       <AnimatePresence initial={false} custom={direction}>
         <motion.div

@@ -9,14 +9,7 @@ import {
   CalendarClock,
   Filter,
   ArrowRight,
-  User,
   GraduationCap,
-  Briefcase,
-  Search,
-  HeartPulse,
-  ShieldCheck,
-  MapPin,
-  Wifi,
   Menu,
   X,
   Users,
@@ -63,7 +56,6 @@ const NAV = [
   { id: "objetivo", label: "Objetivo" },
   { id: "metodologia", label: "Metodología" },
   { id: "hallazgos", label: "Hallazgos" },
-  { id: "variables", label: "Variables" },
   { id: "aporte", label: "Aporte" },
   { id: "cierre", label: "Cierre" },
 ];
@@ -133,17 +125,6 @@ const APORTES = [
     title: "Herramienta de priorización",
     body: "Permite ordenar hogares por riesgo para dirigir las ayudas del Estado o municipio de forma mucho más eficiente y precisa.",
   },
-];
-
-const VARIABLES = [
-  { icon: User, label: "Edad" },
-  { icon: GraduationCap, label: "Años de educación" },
-  { icon: Briefcase, label: "Ocupación" },
-  { icon: Search, label: "Búsqueda de trabajo" },
-  { icon: HeartPulse, label: "Preocupación por el empleo" },
-  { icon: ShieldCheck, label: "Aportes a la seguridad social" },
-  { icon: MapPin, label: "Zona de residencia" },
-  { icon: Wifi, label: "Acceso a internet" },
 ];
 
 function Navbar() {
@@ -455,7 +436,7 @@ function Index() {
       </section>
 
       {/* Hallazgos */}
-      <section id="hallazgos" className="py-24">
+      <section id="hallazgos" className="bg-secondary/50 py-24">
         <div className="mx-auto max-w-6xl px-5">
           <Reveal>
             <SectionTitle eyebrow="04 — Hallazgos" title="Descubrimientos del Análisis" />
@@ -481,33 +462,11 @@ function Index() {
         </div>
       </section>
 
-      {/* Variables */}
-      <section id="variables" className="bg-secondary/50 py-24">
-        <div className="mx-auto max-w-6xl px-5">
-          <Reveal>
-            <SectionTitle eyebrow="05 — Features" title="Las 8 Variables Finales" />
-          </Reveal>
-
-          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {VARIABLES.map((v, i) => (
-              <Reveal key={v.label} delay={i * 70}>
-                <article className="card-elevated group h-full p-6">
-                  <span className="grid size-11 place-items-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-highlight/15 group-hover:text-highlight">
-                    <v.icon className="size-5" />
-                  </span>
-                  <h3 className="mt-5 text-base font-semibold leading-snug">{v.label}</h3>
-                </article>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Aporte */}
       <section id="aporte" className="py-24">
         <div className="mx-auto max-w-6xl px-5">
           <Reveal>
-            <SectionTitle eyebrow="06 — Aporte" title="El Aporte del Proyecto" />
+            <SectionTitle eyebrow="05 — Aporte" title="El Aporte del Proyecto" />
           </Reveal>
 
           <div className="mt-12 grid gap-5 md:grid-cols-3">
@@ -531,17 +490,19 @@ function Index() {
       </section>
 
       {/* Cierre */}
-      <section id="cierre" className="mx-auto max-w-6xl px-5 py-24">
-        <Reveal>
-          <div className="card-elevated overflow-hidden p-8 text-center sm:p-12">
-            <h2 className="font-display text-4xl font-bold tracking-tight sm:text-5xl">
-              ¡Gracias por su atención!
-            </h2>
-            <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-              Agradecemos el tiempo dedicado a recorrer los detalles de este proyecto, su propuesta metodológica y el impacto que busca generar.
-            </p>
-          </div>
-        </Reveal>
+      <section id="cierre" className="bg-secondary/50 py-24">
+        <div className="mx-auto max-w-6xl px-5">
+          <Reveal>
+            <div className="card-elevated overflow-hidden p-8 text-center sm:p-12">
+              <h2 className="font-display text-4xl font-bold tracking-tight sm:text-5xl">
+                ¡Gracias por su atención!
+              </h2>
+              <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+                Agradecemos el tiempo dedicado a recorrer los detalles de este proyecto, su propuesta metodológica y el impacto que busca generar.
+              </p>
+            </div>
+          </Reveal>
+        </div>
       </section>
 
         <footer className="border-t border-border py-8">

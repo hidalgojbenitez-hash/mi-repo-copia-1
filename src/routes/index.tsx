@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import {
   Flame,
   Wallet,
@@ -8,10 +9,7 @@ import {
   Brush,
   CalendarClock,
   Filter,
-  ArrowRight,
   GraduationCap,
-  Menu,
-  X,
   Users,
   AlertCircle,
   Copy,
@@ -19,10 +17,15 @@ import {
   Percent,
   Scale,
   ListOrdered,
+  ChevronUp,
+  ChevronDown,
 } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 import { cn } from "@/lib/utils";
 
+// ============================================================================
+// CONFIGURACIÓN DE RUTA Y METADATOS
+// ============================================================================
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -50,6 +53,9 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
+// ============================================================================
+// CONSTANTES DE DATOS
+// ============================================================================
 const MEMBERS = [
   "Paola Flament",
   "César Augusto Da Silva",
@@ -117,11 +123,18 @@ const APORTES = [
   },
 ];
 
+// ============================================================================
+// COMPONENTES COMUNES
+// ============================================================================
+
+/**
+ * Logo persistente en la esquina superior izquierda
+ */
 function HeaderLogo() {
   return (
     <header className="fixed left-0 top-0 z-50 w-full p-4 pointer-events-none">
       <div className="mx-auto flex max-w-6xl items-center px-1">
-        <div className="pointer-events-auto inline-flex items-center gap-2.5 rounded-xl border border-border/50 bg-background/70 p-2 pr-4 shadow-sm backdrop-blur-md">
+        <div className="pointer-events-auto inline-flex items-center gap-2.5 rounded-xl border border-border/50 bg-background/70 p-2 pr-4 shadow-sm backdrop-blur-md transition-all hover:bg-background/90">
           <span className="grid size-9 place-items-center rounded-lg bg-primary text-primary-foreground font-display text-sm font-bold">
             33
           </span>
@@ -134,6 +147,9 @@ function HeaderLogo() {
   );
 }
 
+/**
+ * Título unificado para las diapositivas
+ */
 function SectionTitle({ eyebrow, title }: { eyebrow: string; title: string }) {
   return (
     <div className="max-w-2xl">
@@ -146,16 +162,19 @@ function SectionTitle({ eyebrow, title }: { eyebrow: string; title: string }) {
   );
 }
 
-function Index() {
-  return (
-    <main className="h-[100svh] w-full overflow-y-scroll overflow-x-hidden snap-y snap-mandatory scroll-smooth bg-background text-foreground">
-      <HeaderLogo />
+// ============================================================================
+// DEFINICIÓN DE DIAPOSITIVAS (SCENES)
+// ============================================================================
 
-      {/* Hero */}
-      <section id="inicio" className="relative flex h-[100svh] snap-start flex-col justify-center overflow-hidden surface-deep shrink-0">
+const slidesContent = [
+  {
+    id: "inicio",
+    theme: "dark",
+    component: () => (
+      <div className="relative flex h-full flex-col justify-center overflow-hidden surface-deep w-full">
         <div className="absolute inset-0 grid-dots opacity-70" aria-hidden />
         <div className="absolute -right-24 -top-24 size-[26rem] rounded-full bg-accent/20 blur-3xl" aria-hidden />
-        <div className="relative mx-auto max-w-6xl px-5 pb-24 pt-32 sm:pt-40">
+        <div className="relative mx-auto max-w-6xl px-5 w-full">
           <Reveal>
             <div className="flex flex-wrap gap-2">
               {["Universidad del Gran Rosario (UGR)", "Aprendizaje Automático", "Grupo 33"].map(
@@ -172,9 +191,8 @@ function Index() {
           </Reveal>
 
           <Reveal delay={120}>
-            <h1 className="mt-8 max-w-4xl text-4xl font-bold leading-[1.1] sm:text-5xl lg:text-6xl">
-              Clasificador para la priorización de asistencia frente a la dificultad de pago del
-              servicio de gas
+            <h1 className="mt-8 max-w-4xl text-4xl font-bold leading-[1.1] sm:text-5xl lg:text-6xl text-foreground">
+              Clasificador para la priorización de asistencia frente a la dificultad de pago del servicio de gas
             </h1>
           </Reveal>
 
@@ -186,7 +204,6 @@ function Index() {
 
           <Reveal delay={320}>
             <div className="mt-12 grid gap-5 border-t border-primary-foreground/15 pt-8 md:grid-cols-2 lg:gap-8">
-              {/* Docentes */}
               <div className="flex flex-col justify-between rounded-2xl border border-accent/40 bg-accent/15 p-5 backdrop-blur-md shadow-sm">
                 <div>
                   <div className="flex items-center gap-2.5">
@@ -194,20 +211,13 @@ function Index() {
                       <GraduationCap className="size-4" />
                     </span>
                     <div>
-                      <p className="text-xs font-bold uppercase tracking-[0.18em] text-accent-foreground">
-                        Cuerpo Docente
-                      </p>
-                      <p className="text-[11px] text-primary-foreground/75">
-                        Cátedra de Aprendizaje Automático
-                      </p>
+                      <p className="text-xs font-bold uppercase tracking-[0.18em] text-accent-foreground">Cuerpo Docente</p>
+                      <p className="text-[11px] text-primary-foreground/75">Cátedra de Aprendizaje Automático</p>
                     </div>
                   </div>
                   <ul className="mt-4 flex flex-wrap gap-2">
                     {TEACHERS.map((name) => (
-                      <li
-                        key={name}
-                        className="inline-flex items-center gap-2 rounded-lg border border-accent/30 bg-primary-foreground/15 px-3 py-1.5 text-sm font-semibold text-primary-foreground backdrop-blur-sm"
-                      >
+                      <li key={name} className="inline-flex items-center gap-2 rounded-lg border border-accent/30 bg-primary-foreground/15 px-3 py-1.5 text-sm font-semibold text-primary-foreground backdrop-blur-sm">
                         <span className="size-2 rounded-full bg-accent" />
                         {name}
                       </li>
@@ -216,7 +226,6 @@ function Index() {
                 </div>
               </div>
 
-              {/* Integrantes */}
               <div className="flex flex-col justify-between rounded-2xl border border-primary-foreground/20 bg-primary-foreground/10 p-5 backdrop-blur-md shadow-sm">
                 <div>
                   <div className="flex items-center gap-2.5">
@@ -224,20 +233,13 @@ function Index() {
                       <Users className="size-4" />
                     </span>
                     <div>
-                      <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-foreground/90">
-                        Integrantes del Grupo
-                      </p>
-                      <p className="text-[11px] text-primary-foreground/75">
-                        Grupo 33
-                      </p>
+                      <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-foreground/90">Integrantes del Grupo</p>
+                      <p className="text-[11px] text-primary-foreground/75">Grupo 33</p>
                     </div>
                   </div>
                   <ul className="mt-4 flex flex-wrap gap-2">
                     {MEMBERS.map((name) => (
-                      <li
-                        key={name}
-                        className="inline-flex items-center gap-2 rounded-lg border border-primary-foreground/15 bg-primary-foreground/10 px-3 py-1.5 text-sm font-medium text-primary-foreground/95 backdrop-blur-sm"
-                      >
+                      <li key={name} className="inline-flex items-center gap-2 rounded-lg border border-primary-foreground/15 bg-primary-foreground/10 px-3 py-1.5 text-sm font-medium text-primary-foreground/95 backdrop-blur-sm">
                         <span className="size-1.5 rounded-full bg-highlight" />
                         {name}
                       </li>
@@ -248,11 +250,14 @@ function Index() {
             </div>
           </Reveal>
         </div>
-      </section>
-
-      {/* Secciones inferiores con fondo claro */}
-      {/* Contexto */}
-      <section id="contexto" className="mx-auto flex h-[100svh] snap-start shrink-0 w-full max-w-6xl flex-col justify-center px-5 py-24">
+      </div>
+    ),
+  },
+  {
+    id: "contexto",
+    theme: "light",
+    component: () => (
+      <div className="mx-auto flex h-full w-full max-w-6xl flex-col justify-center px-5">
         <div className="grid items-start gap-12 lg:grid-cols-2">
           <Reveal>
             <SectionTitle eyebrow="01 — Contexto" title="Contexto y Problema" />
@@ -277,14 +282,10 @@ function Index() {
                   <span className="grid size-11 place-items-center rounded-lg bg-secondary text-primary">
                     <Flame className="size-5" />
                   </span>
-                  <span className="font-display text-sm font-semibold text-muted-foreground">
-                    2015
-                  </span>
+                  <span className="font-display text-sm font-semibold text-muted-foreground">2015</span>
                 </div>
                 <p className="mt-6 font-display text-5xl font-bold text-primary">14%</p>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  de hogares con dificultad de pago
-                </p>
+                <p className="mt-2 text-sm text-muted-foreground">de hogares con dificultad de pago</p>
               </article>
             </Reveal>
 
@@ -294,14 +295,10 @@ function Index() {
                   <span className="grid size-11 place-items-center rounded-lg bg-highlight/15 text-highlight">
                     <Wallet className="size-5" />
                   </span>
-                  <span className="font-display text-sm font-semibold text-muted-foreground">
-                    2016
-                  </span>
+                  <span className="font-display text-sm font-semibold text-muted-foreground">2016</span>
                 </div>
                 <p className="mt-6 font-display text-5xl font-bold text-highlight">37%</p>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  de hogares con dificultad de pago
-                </p>
+                <p className="mt-2 text-sm text-muted-foreground">de hogares con dificultad de pago</p>
               </article>
             </Reveal>
 
@@ -312,43 +309,46 @@ function Index() {
                 </span>
                 <div>
                   <p className="font-display text-lg font-semibold">+23 puntos porcentuales</p>
-                  <p className="text-sm text-muted-foreground">
-                    Salto registrado entre ambas ediciones de la encuesta.
-                  </p>
+                  <p className="text-sm text-muted-foreground">Salto registrado entre ambas ediciones de la encuesta.</p>
                 </div>
               </article>
             </Reveal>
           </div>
         </div>
-      </section>
-
-      {/* Objetivo */}
-      <section id="objetivo" className="flex h-[100svh] snap-start shrink-0 flex-col justify-center bg-secondary/50 py-24">
-        <div className="mx-auto max-w-6xl px-5">
-          <Reveal>
-            <SectionTitle eyebrow="02 — Propósito" title="El Objetivo del Proyecto" />
-          </Reveal>
-          <Reveal delay={150}>
-            <blockquote className="relative mt-10 overflow-hidden rounded-2xl surface-deep p-8 shadow-[var(--shadow-float)] sm:p-12">
-              <div className="absolute inset-0 grid-dots opacity-60" aria-hidden />
-              <Target className="relative size-8 text-highlight" />
-              <p className="relative mt-6 font-display text-xl leading-relaxed sm:text-2xl">
-                Generar un modelo de clasificación supervisada que, a través del perfil
-                socioeconómico y geográfico, prediga la dificultad de pago del gas y traduzca esta
-                probabilidad en un criterio de priorización basado en el costo relativo de los
-                errores (falsos positivos vs. falsos negativos).
-              </p>
-            </blockquote>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* Metodología */}
-      <section id="metodologia" className="mx-auto flex h-[100svh] snap-start shrink-0 w-full max-w-6xl flex-col justify-center px-5 py-24">
+      </div>
+    ),
+  },
+  {
+    id: "objetivo",
+    theme: "secondary",
+    component: () => (
+      <div className="mx-auto flex h-full w-full max-w-6xl flex-col justify-center px-5">
+        <Reveal>
+          <SectionTitle eyebrow="02 — Propósito" title="El Objetivo del Proyecto" />
+        </Reveal>
+        <Reveal delay={150}>
+          <blockquote className="relative mt-10 overflow-hidden rounded-2xl surface-deep p-8 shadow-[var(--shadow-float)] sm:p-12">
+            <div className="absolute inset-0 grid-dots opacity-60" aria-hidden />
+            <Target className="relative size-8 text-highlight" />
+            <p className="relative mt-6 font-display text-xl leading-relaxed sm:text-2xl text-foreground">
+              Generar un modelo de clasificación supervisada que, a través del perfil
+              socioeconómico y geográfico, prediga la dificultad de pago del gas y traduzca esta
+              probabilidad en un criterio de priorización basado en el costo relativo de los
+              errores (falsos positivos vs. falsos negativos).
+            </p>
+          </blockquote>
+        </Reveal>
+      </div>
+    ),
+  },
+  {
+    id: "metodologia",
+    theme: "light",
+    component: () => (
+      <div className="mx-auto flex h-full w-full max-w-6xl flex-col justify-center px-5">
         <Reveal>
           <SectionTitle eyebrow="03 — Proceso" title="Desafíos y Metodología" />
         </Reveal>
-
         <ol className="relative mt-12 space-y-6 border-l border-border pl-6 sm:pl-10">
           {STEPS.map((step, i) => (
             <Reveal key={step.title} delay={i * 130}>
@@ -367,65 +367,71 @@ function Index() {
             </Reveal>
           ))}
         </ol>
-      </section>
-
-      {/* Hallazgos */}
-      <section id="hallazgos" className="flex h-[100svh] snap-start shrink-0 flex-col justify-center bg-secondary/50 py-24">
-        <div className="mx-auto max-w-6xl px-5">
-          <Reveal>
-            <SectionTitle eyebrow="04 — Hallazgos" title="Descubrimientos del Análisis" />
-          </Reveal>
-
-          <div className="mt-12 grid gap-5 md:grid-cols-3">
-            {HALLAZGOS_NUEVOS.map((hallazgo, i) => (
-              <Reveal key={hallazgo.title} delay={i * 120}>
-                <article className="card-elevated flex h-full flex-col p-6">
-                  <div className="flex items-center gap-3">
-                    <span className="grid size-10 place-items-center rounded-lg bg-primary/10 text-primary">
-                      <hallazgo.icon className="size-5" />
-                    </span>
-                    <h3 className="text-base font-semibold leading-snug">{hallazgo.title}</h3>
-                  </div>
-                  <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                    {hallazgo.body}
-                  </p>
-                </article>
-              </Reveal>
-            ))}
-          </div>
+      </div>
+    ),
+  },
+  {
+    id: "hallazgos",
+    theme: "secondary",
+    component: () => (
+      <div className="mx-auto flex h-full w-full max-w-6xl flex-col justify-center px-5">
+        <Reveal>
+          <SectionTitle eyebrow="04 — Hallazgos" title="Descubrimientos del Análisis" />
+        </Reveal>
+        <div className="mt-12 grid gap-5 md:grid-cols-3">
+          {HALLAZGOS_NUEVOS.map((hallazgo, i) => (
+            <Reveal key={hallazgo.title} delay={i * 120}>
+              <article className="card-elevated flex h-full flex-col p-6">
+                <div className="flex items-center gap-3">
+                  <span className="grid size-10 place-items-center rounded-lg bg-primary/10 text-primary">
+                    <hallazgo.icon className="size-5" />
+                  </span>
+                  <h3 className="text-base font-semibold leading-snug">{hallazgo.title}</h3>
+                </div>
+                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                  {hallazgo.body}
+                </p>
+              </article>
+            </Reveal>
+          ))}
         </div>
-      </section>
-
-      {/* Aporte */}
-      <section id="aporte" className="flex h-[100svh] snap-start shrink-0 flex-col justify-center py-24">
-        <div className="mx-auto max-w-6xl px-5">
-          <Reveal>
-            <SectionTitle eyebrow="05 — Aporte" title="El Aporte del Proyecto" />
-          </Reveal>
-
-          <div className="mt-12 grid gap-5 md:grid-cols-3">
-            {APORTES.map((aporte, i) => (
-              <Reveal key={aporte.title} delay={i * 120}>
-                <article className="card-elevated flex h-full flex-col p-6">
-                  <div className="flex items-center gap-3">
-                    <span className="grid size-10 place-items-center rounded-lg bg-highlight/15 text-highlight">
-                      <aporte.icon className="size-5" />
-                    </span>
-                    <h3 className="text-base font-semibold leading-snug">{aporte.title}</h3>
-                  </div>
-                  <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                    {aporte.body}
-                  </p>
-                </article>
-              </Reveal>
-            ))}
-          </div>
+      </div>
+    ),
+  },
+  {
+    id: "aporte",
+    theme: "light",
+    component: () => (
+      <div className="mx-auto flex h-full w-full max-w-6xl flex-col justify-center px-5">
+        <Reveal>
+          <SectionTitle eyebrow="05 — Aporte" title="El Aporte del Proyecto" />
+        </Reveal>
+        <div className="mt-12 grid gap-5 md:grid-cols-3">
+          {APORTES.map((aporte, i) => (
+            <Reveal key={aporte.title} delay={i * 120}>
+              <article className="card-elevated flex h-full flex-col p-6">
+                <div className="flex items-center gap-3">
+                  <span className="grid size-10 place-items-center rounded-lg bg-highlight/15 text-highlight">
+                    <aporte.icon className="size-5" />
+                  </span>
+                  <h3 className="text-base font-semibold leading-snug">{aporte.title}</h3>
+                </div>
+                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                  {aporte.body}
+                </p>
+              </article>
+            </Reveal>
+          ))}
         </div>
-      </section>
-
-      {/* Cierre */}
-      <section id="cierre" className="flex h-[100svh] snap-start shrink-0 flex-col justify-center bg-secondary/50 py-24">
-        <div className="mx-auto max-w-6xl px-5">
+      </div>
+    ),
+  },
+  {
+    id: "cierre",
+    theme: "secondary",
+    component: () => (
+      <div className="mx-auto flex h-full w-full max-w-6xl flex-col justify-between pt-32 pb-8 px-5">
+        <div className="flex-1 flex flex-col justify-center">
           <Reveal>
             <div className="card-elevated overflow-hidden p-8 text-center sm:p-12">
               <h2 className="font-display text-4xl font-bold tracking-tight sm:text-5xl">
@@ -437,13 +443,182 @@ function Index() {
             </div>
           </Reveal>
         </div>
-      </section>
+        <footer className="w-full border-t border-border pt-8 mt-12 shrink-0">
+          <div className="text-center text-sm text-muted-foreground">
+            Grupo 33 · Aprendizaje Automático · Universidad del Gran Rosario (UGR)
+          </div>
+        </footer>
+      </div>
+    ),
+  },
+];
 
-      <footer className="snap-start shrink-0 border-t border-border py-8 bg-background">
-        <div className="mx-auto max-w-6xl px-5 text-sm text-muted-foreground">
-          Grupo 33 · Aprendizaje Automático · Universidad del Gran Rosario (UGR)
-        </div>
-      </footer>
+// ============================================================================
+// COMPONENTE PRINCIPAL: SLIDESHOW
+// ============================================================================
+
+function Index() {
+  const [[page, direction], setPage] = useState([0, 0]);
+  const isAnimating = useRef(false);
+  const shouldReduceMotion = useReducedMotion();
+
+  // Función para cambiar de diapositiva
+  const paginate = useCallback(
+    (newDirection: number) => {
+      if (isAnimating.current) return;
+      const newPage = page + newDirection;
+      
+      // Limitar límites de navegación
+      if (newPage < 0 || newPage >= slidesContent.length) return;
+
+      setPage([newPage, newDirection]);
+      isAnimating.current = true;
+
+      // Bloquear scroll rápido durante la transición
+      setTimeout(() => {
+        isAnimating.current = false;
+      }, 700);
+    },
+    [page]
+  );
+
+  // Soporte para Scroll (Wheel)
+  useEffect(() => {
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      // Pequeño umbral para evitar saltos accidentales por trackpads sensibles
+      if (Math.abs(e.deltaY) > 30) {
+        if (e.deltaY > 0) paginate(1);
+        else paginate(-1);
+      }
+    };
+    // non-passive para poder prevenir el scroll nativo
+    window.addEventListener("wheel", handleWheel, { passive: false });
+    return () => window.removeEventListener("wheel", handleWheel);
+  }, [paginate]);
+
+  // Soporte para Teclado
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowDown" || e.key === "ArrowRight" || e.key === " ") {
+        e.preventDefault();
+        paginate(1);
+      } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
+        e.preventDefault();
+        paginate(-1);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [paginate]);
+
+  // Variantes de animación cinematográfica con profundidad
+  const slideVariants = {
+    enter: (direction: number) => ({
+      y: shouldReduceMotion ? 0 : direction > 0 ? "100%" : "-100%",
+      scale: shouldReduceMotion ? 1 : 0.9,
+      opacity: 0,
+      filter: shouldReduceMotion ? "blur(0px)" : "blur(8px)",
+      zIndex: 0,
+    }),
+    center: {
+      zIndex: 1,
+      y: 0,
+      scale: 1,
+      opacity: 1,
+      filter: "blur(0px)",
+    },
+    exit: (direction: number) => ({
+      zIndex: 0,
+      y: shouldReduceMotion ? 0 : direction < 0 ? "100%" : "-100%",
+      scale: shouldReduceMotion ? 1 : 0.9,
+      opacity: 0,
+      filter: shouldReduceMotion ? "blur(0px)" : "blur(8px)",
+    }),
+  };
+
+  const activeSlide = slidesContent[page];
+
+  return (
+    <main className="relative h-[100svh] w-full overflow-hidden bg-background text-foreground">
+      <HeaderLogo />
+
+      <AnimatePresence initial={false} custom={direction}>
+        <motion.div
+          key={page}
+          custom={direction}
+          variants={slideVariants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{
+            y: { type: "spring", stiffness: 260, damping: 30, mass: 1 },
+            opacity: { duration: 0.4 },
+            scale: { duration: 0.6, ease: [0.25, 1, 0.5, 1] }, // Cinematic ease
+            filter: { duration: 0.5 },
+          }}
+          drag="y"
+          dragConstraints={{ top: 0, bottom: 0 }}
+          dragElastic={0.2}
+          onDragEnd={(e, { offset, velocity }) => {
+            const swipeDistance = offset.y;
+            const swipeVelocity = velocity.y;
+            
+            if (swipeDistance < -60 || swipeVelocity < -500) {
+              paginate(1); // Deslizar hacia arriba avanza
+            } else if (swipeDistance > 60 || swipeVelocity > 500) {
+              paginate(-1); // Deslizar hacia abajo retrocede
+            }
+          }}
+          className={cn(
+            "absolute inset-0 w-full h-full will-change-transform",
+            activeSlide.theme === "secondary" && "bg-secondary/50",
+            activeSlide.theme === "dark" && "bg-background"
+          )}
+        >
+          {activeSlide.component()}
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Controles: Paginación lateral (Dots) */}
+      <div className="absolute right-5 top-1/2 z-50 -translate-y-1/2 flex flex-col gap-3">
+        {slidesContent.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => {
+              if (i === page) return;
+              setPage([i, i > page ? 1 : -1]);
+            }}
+            aria-label={`Ir a la diapositiva ${i + 1}`}
+            className={cn(
+              "h-2.5 w-2.5 rounded-full transition-all duration-300",
+              i === page
+                ? "bg-primary scale-150"
+                : "bg-primary/25 hover:bg-primary/60 hover:scale-125"
+            )}
+          />
+        ))}
+      </div>
+
+      {/* Controles: Botones Anterior / Siguiente (Flotantes abajo a la derecha) */}
+      <div className="absolute bottom-6 right-6 z-50 flex gap-2">
+        <button
+          onClick={() => paginate(-1)}
+          disabled={page === 0}
+          aria-label="Diapositiva anterior"
+          className="grid size-11 place-items-center rounded-full bg-background/80 border border-border text-foreground shadow-sm backdrop-blur-md transition-all hover:bg-secondary hover:scale-105 active:scale-95 disabled:opacity-40 disabled:hover:scale-100 disabled:cursor-not-allowed"
+        >
+          <ChevronUp className="size-5" />
+        </button>
+        <button
+          onClick={() => paginate(1)}
+          disabled={page === slidesContent.length - 1}
+          aria-label="Diapositiva siguiente"
+          className="grid size-11 place-items-center rounded-full bg-primary text-primary-foreground shadow-sm transition-all hover:bg-primary/90 hover:scale-105 active:scale-95 disabled:opacity-40 disabled:hover:scale-100 disabled:cursor-not-allowed"
+        >
+          <ChevronDown className="size-5" />
+        </button>
+      </div>
     </main>
   );
 }

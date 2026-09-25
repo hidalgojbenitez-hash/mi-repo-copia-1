@@ -170,11 +170,11 @@ function HeaderLogo({ visible }: { visible: boolean }) {
 function SectionTitle({ eyebrow, title }: { eyebrow: string; title: string }) {
   return (
     <div className="max-w-2xl">
-      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent-foreground/70">
+      <p className="text-caption uppercase text-accent/80">
         {eyebrow}
       </p>
-      <h2 className="mt-2 text-3xl font-bold sm:text-4xl">{title}</h2>
-      <div className="mt-4 h-1 w-16 rounded-full bg-highlight" />
+      <h2 className="mt-2 text-h2">{title}</h2>
+      <div className="mt-4 h-1 w-16 rounded-full bg-accent" />
     </div>
   );
 }
@@ -208,13 +208,13 @@ const slidesContent = [
           </Reveal>
 
           <Reveal delay={120}>
-            <h1 className="mt-8 max-w-4xl text-4xl font-bold leading-[1.1] sm:text-5xl lg:text-6xl text-foreground">
+            <h1 className="mt-8 max-w-4xl text-display text-primary-foreground drop-shadow-sm">
               Clasificador para la priorización de asistencia frente a la dificultad de pago del servicio de gas
             </h1>
           </Reveal>
 
           <Reveal delay={220}>
-            <p className="mt-6 max-w-2xl text-lg text-primary-foreground/80">
+            <p className="mt-6 max-w-2xl text-body text-primary-foreground/90">
               Un enfoque de Machine Learning para optimizar recursos en Mar del Plata
             </p>
           </Reveal>
@@ -278,15 +278,15 @@ const slidesContent = [
         <div className="grid items-start gap-12 lg:grid-cols-2">
           <Reveal>
             <SectionTitle eyebrow="01 — Contexto" title="Contexto y Problema" />
-            <p className="mt-6 text-base leading-relaxed text-muted-foreground">
+            <p className="mt-6 text-body text-muted-foreground">
               Entre 2015 y 2016, Argentina atravesó un fuerte ajuste tarifario que impactó
               directamente en el servicio de gas residencial en Mar del Plata. En un escenario de
               recursos limitados, no alcanza con describir el problema: necesitamos un criterio
               objetivo para decidir a qué hogares dirigir la asistencia.
             </p>
             <div className="mt-8 flex items-center gap-3 rounded-xl border border-border bg-secondary/60 p-4">
-              <TrendingUp className="size-5 shrink-0 text-highlight" />
-              <p className="text-sm font-medium">
+              <TrendingUp className="size-5 shrink-0 text-accent" />
+              <p className="text-body font-medium">
                 La dificultad de pago se multiplicó por más de 2,5 en un solo año.
               </p>
             </div>
@@ -301,21 +301,21 @@ const slidesContent = [
                   </span>
                   <span className="font-display text-sm font-semibold text-muted-foreground">2015</span>
                 </div>
-                <p className="mt-6 font-display text-5xl font-bold text-primary">14%</p>
-                <p className="mt-2 text-sm text-muted-foreground">de hogares con dificultad de pago</p>
+                <p className="mt-6 text-display text-primary">14%</p>
+                <p className="mt-2 text-caption text-muted-foreground">de hogares con dificultad de pago</p>
               </article>
             </Reveal>
 
             <Reveal delay={200}>
-              <article className="card-elevated h-full border-highlight/40 p-6">
+              <article className="card-elevated h-full border-accent/40 p-6">
                 <div className="flex items-center justify-between">
-                  <span className="grid size-11 place-items-center rounded-lg bg-highlight/15 text-highlight">
+                  <span className="grid size-11 place-items-center rounded-lg bg-accent/15 text-accent">
                     <Wallet className="size-5" />
                   </span>
                   <span className="font-display text-sm font-semibold text-muted-foreground">2016</span>
                 </div>
-                <p className="mt-6 font-display text-5xl font-bold text-highlight">37%</p>
-                <p className="mt-2 text-sm text-muted-foreground">de hogares con dificultad de pago</p>
+                <p className="mt-6 text-display text-accent">37%</p>
+                <p className="mt-2 text-caption text-muted-foreground">de hogares con dificultad de pago</p>
               </article>
             </Reveal>
 
@@ -325,8 +325,8 @@ const slidesContent = [
                   <TrendingUp className="size-5" />
                 </span>
                 <div>
-                  <p className="font-display text-lg font-semibold">+23 puntos porcentuales</p>
-                  <p className="text-sm text-muted-foreground">Salto registrado entre ambas ediciones de la encuesta.</p>
+                  <p className="font-display text-h2">+23 puntos porcentuales</p>
+                  <p className="text-caption text-muted-foreground">Salto registrado entre ambas ediciones de la encuesta.</p>
                 </div>
               </article>
             </Reveal>
@@ -346,8 +346,8 @@ const slidesContent = [
         <Reveal delay={150}>
           <blockquote className="relative mt-10 overflow-hidden rounded-2xl surface-deep p-8 shadow-[var(--shadow-float)] sm:p-12">
             <div className="absolute inset-0 grid-dots opacity-60" aria-hidden />
-            <Target className="relative size-8 text-highlight" />
-            <p className="relative mt-6 font-display text-xl leading-relaxed sm:text-2xl text-foreground">
+            <Target className="relative size-8 text-accent" />
+            <p className="relative mt-6 text-h2 font-normal text-primary-foreground">
               Generar un modelo de clasificación supervisada que, a través del perfil
               socioeconómico y geográfico, prediga la dificultad de pago del gas y traduzca esta
               probabilidad en un criterio de priorización basado en el costo relativo de los
@@ -374,11 +374,11 @@ const slidesContent = [
                   <step.icon className="size-4" />
                 </span>
                 <div className="card-elevated p-6 sm:p-7">
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-highlight">
+                  <p className="text-caption uppercase text-accent">
                     {step.step}
                   </p>
-                  <h3 className="mt-2 text-xl font-semibold">{step.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{step.body}</p>
+                  <h3 className="mt-2 text-[1.25rem] font-bold font-display">{step.title}</h3>
+                  <p className="mt-3 text-body text-muted-foreground">{step.body}</p>
                 </div>
               </li>
             </Reveal>
@@ -403,9 +403,9 @@ const slidesContent = [
                   <span className="grid size-10 place-items-center rounded-lg bg-primary/10 text-primary">
                     <hallazgo.icon className="size-5" />
                   </span>
-                  <h3 className="text-base font-semibold leading-snug">{hallazgo.title}</h3>
+                  <h3 className="font-display font-bold text-[1.125rem] leading-snug">{hallazgo.title}</h3>
                 </div>
-                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                <p className="mt-4 text-body text-muted-foreground">
                   {hallazgo.body}
                 </p>
               </article>
@@ -428,12 +428,12 @@ const slidesContent = [
             <Reveal key={aporte.title} delay={i * 120}>
               <article className="card-elevated flex h-full flex-col p-6">
                 <div className="flex items-center gap-3">
-                  <span className="grid size-10 place-items-center rounded-lg bg-highlight/15 text-highlight">
+                  <span className="grid size-10 place-items-center rounded-lg bg-accent/15 text-accent">
                     <aporte.icon className="size-5" />
                   </span>
-                  <h3 className="text-base font-semibold leading-snug">{aporte.title}</h3>
+                  <h3 className="font-display font-bold text-[1.125rem] leading-snug">{aporte.title}</h3>
                 </div>
-                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                <p className="mt-4 text-body text-muted-foreground">
                   {aporte.body}
                 </p>
               </article>
@@ -451,10 +451,10 @@ const slidesContent = [
         <div className="flex-1 flex flex-col justify-center">
           <Reveal>
             <div className="card-elevated overflow-hidden p-8 text-center sm:p-12">
-              <h2 className="font-display text-4xl font-bold tracking-tight sm:text-5xl">
+              <h2 className="text-display text-accent">
                 ¡Gracias por su atención!
               </h2>
-              <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+              <p className="mx-auto mt-6 max-w-2xl text-body text-muted-foreground">
                 Agradecemos el tiempo dedicado a recorrer los detalles de este proyecto, su propuesta metodológica y el impacto que busca generar.
               </p>
             </div>

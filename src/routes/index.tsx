@@ -362,23 +362,23 @@ const slidesContent = [
     id: "metodologia",
     theme: "light",
     component: () => (
-      <div className="mx-auto flex h-full w-full max-w-6xl flex-col justify-center px-5">
+      <div className="mx-auto flex h-full w-full max-w-6xl flex-col justify-center px-5 pt-8">
         <Reveal>
           <SectionTitle eyebrow="03 — Proceso" title="Desafíos y Metodología" />
         </Reveal>
-        <ol className="relative mt-12 space-y-6 border-l border-border pl-6 sm:pl-10">
+        <ol className="relative mt-6 space-y-3 border-l border-border pl-6 sm:pl-10">
           {STEPS.map((step, i) => (
             <Reveal key={step.title} delay={i * 130}>
               <li className="relative">
-                <span className="absolute -left-[2.15rem] top-6 grid size-8 place-items-center rounded-full border border-border bg-background text-primary sm:-left-[3.35rem]">
+                <span className="absolute -left-[2.15rem] top-4 grid size-8 place-items-center rounded-full border border-border bg-background text-primary sm:-left-[3.35rem]">
                   <step.icon className="size-4" />
                 </span>
-                <div className="card-elevated p-6 sm:p-7">
-                  <p className="text-caption uppercase text-accent">
+                <div className="card-elevated p-4 sm:p-5">
+                  <p className="text-caption uppercase text-accent leading-none">
                     {step.step}
                   </p>
-                  <h3 className="mt-2 text-[1.25rem] font-bold font-display">{step.title}</h3>
-                  <p className="mt-3 text-body text-muted-foreground">{step.body}</p>
+                  <h3 className="mt-1 text-[1.15rem] sm:text-[1.25rem] font-bold font-display">{step.title}</h3>
+                  <p className="mt-1.5 text-[0.95rem] leading-snug sm:text-body text-muted-foreground">{step.body}</p>
                 </div>
               </li>
             </Reveal>

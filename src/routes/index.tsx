@@ -50,16 +50,6 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const NAV = [
-  { id: "inicio", label: "Inicio" },
-  { id: "contexto", label: "Contexto" },
-  { id: "objetivo", label: "Objetivo" },
-  { id: "metodologia", label: "Metodología" },
-  { id: "hallazgos", label: "Hallazgos" },
-  { id: "aporte", label: "Aporte" },
-  { id: "cierre", label: "Cierre" },
-];
-
 const MEMBERS = [
   "Paola Flament",
   "César Augusto Da Silva",
@@ -127,74 +117,19 @@ const APORTES = [
   },
 ];
 
-function Navbar() {
-  const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
+function HeaderLogo() {
   return (
-    <header
-      className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-all duration-300",
-        scrolled
-          ? "border-b border-border/60 bg-background/85 backdrop-blur-md shadow-[var(--shadow-card)]"
-          : "bg-transparent",
-      )}
-    >
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3.5">
-        <a href="#inicio" className="flex items-center gap-2.5">
-          <span className="grid size-9 place-items-center rounded-lg surface-deep font-display text-sm font-bold">
+    <header className="fixed left-0 top-0 z-50 w-full p-4 pointer-events-none">
+      <div className="mx-auto flex max-w-6xl items-center px-1">
+        <div className="pointer-events-auto inline-flex items-center gap-2.5 rounded-xl border border-border/50 bg-background/70 p-2 pr-4 shadow-sm backdrop-blur-md">
+          <span className="grid size-9 place-items-center rounded-lg bg-primary text-primary-foreground font-display text-sm font-bold">
             33
           </span>
-          <span className="hidden text-sm font-semibold tracking-tight sm:block">
-            Grupo 33 · UGR
+          <span className="text-sm font-semibold tracking-tight text-foreground">
+            Grupo 33 · Aprendizaje Automático · UGR
           </span>
-        </a>
-
-        <ul className="hidden items-center gap-1 md:flex">
-          {NAV.map((item) => (
-            <li key={item.id}>
-              <a
-                href={`#${item.id}`}
-                className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-              >
-                {item.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-
-        <button
-          type="button"
-          aria-label="Abrir menú"
-          onClick={() => setOpen((v) => !v)}
-          className="grid size-10 place-items-center rounded-md border border-border bg-card text-foreground md:hidden"
-        >
-          {open ? <X className="size-5" /> : <Menu className="size-5" />}
-        </button>
-      </nav>
-
-      {open && (
-        <ul className="border-t border-border bg-background/95 px-5 py-2 backdrop-blur-md md:hidden">
-          {NAV.map((item) => (
-            <li key={item.id}>
-              <a
-                href={`#${item.id}`}
-                onClick={() => setOpen(false)}
-                className="block rounded-md px-2 py-3 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              >
-                {item.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      )}
+        </div>
+      </div>
     </header>
   );
 }
@@ -213,11 +148,11 @@ function SectionTitle({ eyebrow, title }: { eyebrow: string; title: string }) {
 
 function Index() {
   return (
-    <div className="min-h-screen">
-      <Navbar />
+    <main className="h-[100svh] w-full overflow-y-scroll overflow-x-hidden snap-y snap-mandatory scroll-smooth bg-background text-foreground">
+      <HeaderLogo />
 
       {/* Hero */}
-      <section id="inicio" className="relative flex min-h-screen flex-col justify-center overflow-hidden surface-deep">
+      <section id="inicio" className="relative flex h-[100svh] snap-start flex-col justify-center overflow-hidden surface-deep shrink-0">
         <div className="absolute inset-0 grid-dots opacity-70" aria-hidden />
         <div className="absolute -right-24 -top-24 size-[26rem] rounded-full bg-accent/20 blur-3xl" aria-hidden />
         <div className="relative mx-auto max-w-6xl px-5 pb-24 pt-32 sm:pt-40">
@@ -316,9 +251,8 @@ function Index() {
       </section>
 
       {/* Secciones inferiores con fondo claro */}
-      <main className="bg-background text-foreground">
-        {/* Contexto */}
-        <section id="contexto" className="mx-auto flex w-full max-w-6xl flex-col justify-center px-5 py-24 min-h-[100svh]">
+      {/* Contexto */}
+      <section id="contexto" className="mx-auto flex h-[100svh] snap-start shrink-0 w-full max-w-6xl flex-col justify-center px-5 py-24">
         <div className="grid items-start gap-12 lg:grid-cols-2">
           <Reveal>
             <SectionTitle eyebrow="01 — Contexto" title="Contexto y Problema" />
@@ -389,7 +323,7 @@ function Index() {
       </section>
 
       {/* Objetivo */}
-      <section id="objetivo" className="flex min-h-[100svh] flex-col justify-center bg-secondary/50 py-24">
+      <section id="objetivo" className="flex h-[100svh] snap-start shrink-0 flex-col justify-center bg-secondary/50 py-24">
         <div className="mx-auto max-w-6xl px-5">
           <Reveal>
             <SectionTitle eyebrow="02 — Propósito" title="El Objetivo del Proyecto" />
@@ -410,7 +344,7 @@ function Index() {
       </section>
 
       {/* Metodología */}
-      <section id="metodologia" className="mx-auto flex w-full max-w-6xl flex-col justify-center px-5 py-24 min-h-[100svh]">
+      <section id="metodologia" className="mx-auto flex h-[100svh] snap-start shrink-0 w-full max-w-6xl flex-col justify-center px-5 py-24">
         <Reveal>
           <SectionTitle eyebrow="03 — Proceso" title="Desafíos y Metodología" />
         </Reveal>
@@ -436,7 +370,7 @@ function Index() {
       </section>
 
       {/* Hallazgos */}
-      <section id="hallazgos" className="flex min-h-[100svh] flex-col justify-center bg-secondary/50 py-24">
+      <section id="hallazgos" className="flex h-[100svh] snap-start shrink-0 flex-col justify-center bg-secondary/50 py-24">
         <div className="mx-auto max-w-6xl px-5">
           <Reveal>
             <SectionTitle eyebrow="04 — Hallazgos" title="Descubrimientos del Análisis" />
@@ -463,7 +397,7 @@ function Index() {
       </section>
 
       {/* Aporte */}
-      <section id="aporte" className="flex min-h-[100svh] flex-col justify-center py-24">
+      <section id="aporte" className="flex h-[100svh] snap-start shrink-0 flex-col justify-center py-24">
         <div className="mx-auto max-w-6xl px-5">
           <Reveal>
             <SectionTitle eyebrow="05 — Aporte" title="El Aporte del Proyecto" />
@@ -490,7 +424,7 @@ function Index() {
       </section>
 
       {/* Cierre */}
-      <section id="cierre" className="flex min-h-[100svh] flex-col justify-center bg-secondary/50 py-24">
+      <section id="cierre" className="flex h-[100svh] snap-start shrink-0 flex-col justify-center bg-secondary/50 py-24">
         <div className="mx-auto max-w-6xl px-5">
           <Reveal>
             <div className="card-elevated overflow-hidden p-8 text-center sm:p-12">
@@ -505,12 +439,11 @@ function Index() {
         </div>
       </section>
 
-        <footer className="border-t border-border py-8">
-          <div className="mx-auto max-w-6xl px-5 text-sm text-muted-foreground">
-            Grupo 33 · Aprendizaje Automático · Universidad del Gran Rosario (UGR)
-          </div>
-        </footer>
-      </main>
-    </div>
+      <footer className="snap-start shrink-0 border-t border-border py-8 bg-background">
+        <div className="mx-auto max-w-6xl px-5 text-sm text-muted-foreground">
+          Grupo 33 · Aprendizaje Automático · Universidad del Gran Rosario (UGR)
+        </div>
+      </footer>
+    </main>
   );
 }

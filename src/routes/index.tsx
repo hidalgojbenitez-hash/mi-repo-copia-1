@@ -73,6 +73,8 @@ const MEMBERS = [
   "Juan Marcos Payetta",
 ];
 
+const TEACHERS = ["Fabiana Escobar", "Ana María Nardin", "Lujan Cazenabe"];
+
 const STEPS = [
   {
     icon: Brush,

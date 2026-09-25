@@ -97,24 +97,24 @@ const STEPS = [
 const EVIDENCE = [
   {
     icon: Shuffle,
-    title: "Prueba Cruzada (Cross-Year)",
+    title: "Prueba Cruzada",
     metric: "AUC ≈ 0.55",
-    note: "Rendimiento cercano al azar",
-    body: "Entrenamos un modelo con 2016 y lo evaluamos con 2015, y al revés. El modelo no transfería entre años: lo aprendido en un contexto tarifario no explicaba el otro.",
+    note: "Rinde al nivel del azar",
+    body: "Entrenar en un año y evaluar en el otro rinde al nivel del azar; el patrón no transfiere entre coyunturas tarifarias.",
   },
   {
     icon: AlertTriangle,
-    title: "El Atajo Predictivo",
-    metric: "Sesgo de variable",
-    note: "El año domina el modelo",
-    body: "Al juntar ambas ediciones, el rendimiento subía en apariencia, pero el 'año' se volvía una de las variables más importantes: el modelo aprendía a distinguir el año en lugar del perfil del hogar.",
+    title: "Atajo Predictivo",
+    metric: "El año domina",
+    note: "Clasifica el tiempo, no el perfil",
+    body: "Al unirlas, el año se vuelve la variable principal: el modelo clasifica el tiempo, no el perfil vulnerable.",
   },
   {
     icon: SplitSquareHorizontal,
     title: "Clasificador de Edición",
     metric: "AUC = 0.87",
-    note: "Poblaciones separables",
-    body: "Entrenamos un modelo para adivinar el año de cada registro y lo distinguió con altísima precisión. Confirmó que el ajuste tarifario de 2016 alteró el fenómeno de fondo, no solo la magnitud.",
+    note: "Poblaciones distinguibles",
+    body: "Las dos ediciones resultan poblaciones distinguibles; el ajuste de 2016 alteró el fenómeno estructural.",
   },
 ];
 
@@ -373,11 +373,10 @@ function Index() {
                 <Lightbulb className="size-3.5" /> Hallazgo Metodológico Central
               </span>
               <h2 className="mt-5 max-w-3xl text-3xl font-bold sm:text-4xl">
-                La decisión más importante: no combinar ediciones
+                Decisión Clave: No Combinar Ediciones
               </h2>
               <p className="mt-5 max-w-3xl text-lg leading-relaxed text-muted-foreground">
-                Lo primero que tuvimos que definir fue si usar una edición o las dos. Parecía obvio
-                que usar más datos era mejor. Pero al probarlo, encontramos algo inesperado.
+                Evidencia empírica frente al dilema de volumen vs. coyuntura
               </p>
             </Reveal>
 
@@ -405,8 +404,7 @@ function Index() {
               <div className="mt-8 flex gap-4 rounded-2xl border-l-4 border-highlight bg-highlight/10 p-6">
                 <CheckCircle2 className="size-6 shrink-0 text-highlight" />
                 <p className="font-display text-lg leading-relaxed">
-                  Por eso el proyecto trabaja únicamente con la edición 2016. Es una decisión
-                  metodológica central y la documentamos con evidencia cuantitativa, no por
+                  El modelo se delimita exclusivamente a 2016 con respaldo cuantitativo, no por
                   comodidad.
                 </p>
               </div>

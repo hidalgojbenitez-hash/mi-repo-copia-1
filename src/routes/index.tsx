@@ -20,6 +20,12 @@ import {
   Menu,
   X,
   Users,
+  AlertCircle,
+  Copy,
+  FileQuestion,
+  Percent,
+  Scale,
+  ListOrdered,
 } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 import { cn } from "@/lib/utils";
@@ -56,8 +62,10 @@ const NAV = [
   { id: "contexto", label: "Contexto" },
   { id: "objetivo", label: "Objetivo" },
   { id: "metodologia", label: "Metodología" },
+  { id: "hallazgos", label: "Hallazgos" },
   { id: "variables", label: "Variables" },
-  { id: "proximos-pasos", label: "Próximos pasos" },
+  { id: "aporte", label: "Aporte" },
+  { id: "proximos-pasos", label: "Cierre" },
 ];
 
 const MEMBERS = [
@@ -88,6 +96,42 @@ const STEPS = [
     step: "Paso 3",
     title: "Filtrado de Variables",
     body: "De 403 variables iniciales se eliminó el ruido y la fuga de información, por ejemplo la dificultad para pagar otros servicios como luz o agua.",
+  },
+];
+
+const HALLAZGOS_NUEVOS = [
+  {
+    icon: AlertCircle,
+    title: "El ingreso no discrimina",
+    body: "La proporción de hogares con dificultad fue prácticamente la misma en todos los niveles de ingreso. Lo que parecía obvio, no lo fue.",
+  },
+  {
+    icon: Copy,
+    title: "Múltiples variables, un mismo fondo",
+    body: "Variables de distintos temas compartían el mismo fondo: el estrés económico. Distinguir cuáles aportaban información nueva y cuáles repetían lo mismo fue clave.",
+  },
+  {
+    icon: FileQuestion,
+    title: "Respuestas irreales",
+    body: "El dataset tiene códigos que no son respuestas sustantivas —como 'no aplica' o 'no contesta'— mezclados con valores reales. Tratarlos correctamente previno conclusiones falsas.",
+  },
+];
+
+const APORTES = [
+  {
+    icon: Percent,
+    title: "Probabilidades, no etiquetas",
+    body: "En lugar de sentenciar 'este hogar paga o no paga', el modelo asigna una probabilidad de dificultad de pago a cada hogar.",
+  },
+  {
+    icon: Scale,
+    title: "Umbral de decisión calibrado",
+    body: "Ajustado según el costo de los errores: dejar afuera un hogar vulnerable pesa mucho más que asistir a alguien que no lo necesita.",
+  },
+  {
+    icon: ListOrdered,
+    title: "Herramienta de priorización",
+    body: "Permite ordenar hogares por riesgo para dirigir las ayudas del Estado o municipio de forma mucho más eficiente y precisa.",
   },
 ];
 
@@ -410,11 +454,38 @@ function Index() {
         </ol>
       </section>
 
+      {/* Hallazgos */}
+      <section id="hallazgos" className="py-24">
+        <div className="mx-auto max-w-6xl px-5">
+          <Reveal>
+            <SectionTitle eyebrow="04 — Hallazgos" title="Descubrimientos del Análisis" />
+          </Reveal>
+
+          <div className="mt-12 grid gap-5 md:grid-cols-3">
+            {HALLAZGOS_NUEVOS.map((hallazgo, i) => (
+              <Reveal key={hallazgo.title} delay={i * 120}>
+                <article className="card-elevated flex h-full flex-col p-6">
+                  <div className="flex items-center gap-3">
+                    <span className="grid size-10 place-items-center rounded-lg bg-primary/10 text-primary">
+                      <hallazgo.icon className="size-5" />
+                    </span>
+                    <h3 className="text-base font-semibold leading-snug">{hallazgo.title}</h3>
+                  </div>
+                  <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                    {hallazgo.body}
+                  </p>
+                </article>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Variables */}
       <section id="variables" className="bg-secondary/50 py-24">
         <div className="mx-auto max-w-6xl px-5">
           <Reveal>
-            <SectionTitle eyebrow="04 — Features" title="Las 8 Variables Finales" />
+            <SectionTitle eyebrow="05 — Features" title="Las 8 Variables Finales" />
           </Reveal>
 
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -432,11 +503,38 @@ function Index() {
         </div>
       </section>
 
+      {/* Aporte */}
+      <section id="aporte" className="py-24">
+        <div className="mx-auto max-w-6xl px-5">
+          <Reveal>
+            <SectionTitle eyebrow="06 — Aporte" title="El Aporte del Proyecto" />
+          </Reveal>
+
+          <div className="mt-12 grid gap-5 md:grid-cols-3">
+            {APORTES.map((aporte, i) => (
+              <Reveal key={aporte.title} delay={i * 120}>
+                <article className="card-elevated flex h-full flex-col p-6">
+                  <div className="flex items-center gap-3">
+                    <span className="grid size-10 place-items-center rounded-lg bg-highlight/15 text-highlight">
+                      <aporte.icon className="size-5" />
+                    </span>
+                    <h3 className="text-base font-semibold leading-snug">{aporte.title}</h3>
+                  </div>
+                  <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                    {aporte.body}
+                  </p>
+                </article>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Próximos pasos */}
       <section id="proximos-pasos" className="mx-auto max-w-6xl px-5 py-24">
         <Reveal>
           <div className="card-elevated overflow-hidden p-8 sm:p-12">
-            <SectionTitle eyebrow="05 — Cierre" title="Próximos Pasos" />
+            <SectionTitle eyebrow="07 — Cierre" title="Próximos Pasos" />
             <p className="mt-6 max-w-3xl text-lg leading-relaxed text-muted-foreground">
               Esta entrega presenta las bases sólidas del proyecto y la propuesta metodológica. En
               la próxima etapa: Entrenamiento del Modelo y Definición del Umbral de Priorización.

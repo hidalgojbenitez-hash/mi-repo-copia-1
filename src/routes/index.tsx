@@ -19,6 +19,11 @@ import {
   Wifi,
   Menu,
   X,
+  Shuffle,
+  AlertTriangle,
+  SplitSquareHorizontal,
+  Lightbulb,
+  CheckCircle2,
 } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 import { cn } from "@/lib/utils";
@@ -54,6 +59,7 @@ const NAV = [
   { id: "inicio", label: "Inicio" },
   { id: "contexto", label: "Contexto" },
   { id: "objetivo", label: "Objetivo" },
+  { id: "hallazgo", label: "Hallazgo" },
   { id: "metodologia", label: "Metodología" },
   { id: "variables", label: "Variables" },
   { id: "proximos-pasos", label: "Próximos pasos" },
@@ -71,20 +77,44 @@ const STEPS = [
   {
     icon: Brush,
     step: "Paso 1",
-    title: "Auditoría y Limpieza",
-    body: "Tratamiento de formatos distintos entre encuestas y categorización de los valores faltantes: explícitos y estructurales, como cuando una pregunta no aplica al hogar encuestado.",
+    title: "Auditoría de Formatos",
+    body: "Revisión y homogeneización de los formatos de la encuesta 2016: tipos de datos, codificaciones de categorías y consistencia entre preguntas.",
   },
   {
     icon: CalendarClock,
     step: "Paso 2",
-    title: "El Desafío Temporal",
-    body: "Evaluar el modelo entrenado en 2016 sobre datos de 2015 desplomó el AUC a 0.55, un valor cercano al azar. Conclusión: las ediciones son poblaciones distintas, por lo que se modela exclusivamente sobre 2016.",
+    title: "Imputación de Nulos",
+    body: "Categorización de los valores faltantes en explícitos y estructurales (cuando una pregunta no aplica al hogar encuestado) y tratamiento diferenciado para cada tipo.",
   },
   {
     icon: Filter,
     step: "Paso 3",
     title: "Filtrado de Variables",
     body: "De 403 variables iniciales se eliminó el ruido y la fuga de información, por ejemplo la dificultad para pagar otros servicios como luz o agua.",
+  },
+];
+
+const EVIDENCE = [
+  {
+    icon: Shuffle,
+    title: "Prueba Cruzada (Cross-Year)",
+    metric: "AUC ≈ 0.55",
+    note: "Rendimiento cercano al azar",
+    body: "Entrenamos un modelo con 2016 y lo evaluamos con 2015, y al revés. El modelo no transfería entre años: lo aprendido en un contexto tarifario no explicaba el otro.",
+  },
+  {
+    icon: AlertTriangle,
+    title: "El Atajo Predictivo",
+    metric: "Sesgo de variable",
+    note: "El año domina el modelo",
+    body: "Al juntar ambas ediciones, el rendimiento subía en apariencia, pero el 'año' se volvía una de las variables más importantes: el modelo aprendía a distinguir el año en lugar del perfil del hogar.",
+  },
+  {
+    icon: SplitSquareHorizontal,
+    title: "Clasificador de Edición",
+    metric: "AUC = 0.87",
+    note: "Poblaciones separables",
+    body: "Entrenamos un modelo para adivinar el año de cada registro y lo distinguió con altísima precisión. Confirmó que el ajuste tarifario de 2016 alteró el fenómeno de fondo, no solo la magnitud.",
   },
 ];
 
@@ -331,6 +361,57 @@ function Index() {
               </p>
             </blockquote>
           </Reveal>
+        </div>
+      </section>
+
+      {/* Hallazgo */}
+      <section id="hallazgo" className="py-24">
+        <div className="mx-auto max-w-6xl px-5">
+          <div className="rounded-3xl border border-border bg-gradient-to-b from-secondary/70 to-background p-6 shadow-[var(--shadow-card)] sm:p-12">
+            <Reveal>
+              <span className="inline-flex items-center gap-2 rounded-full bg-highlight/15 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-highlight">
+                <Lightbulb className="size-3.5" /> Hallazgo Metodológico Central
+              </span>
+              <h2 className="mt-5 max-w-3xl text-3xl font-bold sm:text-4xl">
+                La decisión más importante: no combinar ediciones
+              </h2>
+              <p className="mt-5 max-w-3xl text-lg leading-relaxed text-muted-foreground">
+                Lo primero que tuvimos que definir fue si usar una edición o las dos. Parecía obvio
+                que usar más datos era mejor. Pero al probarlo, encontramos algo inesperado.
+              </p>
+            </Reveal>
+
+            <div className="mt-10 grid gap-5 md:grid-cols-3">
+              {EVIDENCE.map((e, i) => (
+                <Reveal key={e.title} delay={i * 120}>
+                  <article className="card-elevated flex h-full flex-col p-6">
+                    <div className="flex items-center gap-3">
+                      <span className="grid size-10 place-items-center rounded-lg bg-primary/10 text-primary">
+                        <e.icon className="size-5" />
+                      </span>
+                      <h3 className="text-base font-semibold leading-snug">{e.title}</h3>
+                    </div>
+                    <p className="mt-6 font-display text-3xl font-bold text-primary">{e.metric}</p>
+                    <p className="mt-1 text-xs font-semibold uppercase tracking-[0.14em] text-highlight">
+                      {e.note}
+                    </p>
+                    <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{e.body}</p>
+                  </article>
+                </Reveal>
+              ))}
+            </div>
+
+            <Reveal delay={200}>
+              <div className="mt-8 flex gap-4 rounded-2xl border-l-4 border-highlight bg-highlight/10 p-6">
+                <CheckCircle2 className="size-6 shrink-0 text-highlight" />
+                <p className="font-display text-lg leading-relaxed">
+                  Por eso el proyecto trabaja únicamente con la edición 2016. Es una decisión
+                  metodológica central y la documentamos con evidencia cuantitativa, no por
+                  comodidad.
+                </p>
+              </div>
+            </Reveal>
+          </div>
         </div>
       </section>
 

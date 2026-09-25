@@ -65,7 +65,7 @@ const NAV = [
   { id: "hallazgos", label: "Hallazgos" },
   { id: "variables", label: "Variables" },
   { id: "aporte", label: "Aporte" },
-  { id: "proximos-pasos", label: "Cierre" },
+  { id: "cierre", label: "Cierre" },
 ];
 
 const MEMBERS = [
@@ -121,7 +121,7 @@ const APORTES = [
   {
     icon: Percent,
     title: "Probabilidades, no etiquetas",
-    body: "En lugar de sentenciar 'este hogar paga o no paga', el modelo asigna una probabilidad de dificultad de pago a cada hogar.",
+    body: "En lugar de sentenciar 'este hogar paga o no paga', el modelo asignará una probabilidad de dificultad de pago a cada hogar.",
   },
   {
     icon: Scale,
@@ -530,23 +530,16 @@ function Index() {
         </div>
       </section>
 
-      {/* Próximos pasos */}
-      <section id="proximos-pasos" className="mx-auto max-w-6xl px-5 py-24">
+      {/* Cierre */}
+      <section id="cierre" className="mx-auto max-w-6xl px-5 py-24">
         <Reveal>
-          <div className="card-elevated overflow-hidden p-8 sm:p-12">
-            <SectionTitle eyebrow="07 — Cierre" title="Próximos Pasos" />
-            <p className="mt-6 max-w-3xl text-lg leading-relaxed text-muted-foreground">
-              Esta entrega presenta las bases sólidas del proyecto y la propuesta metodológica. En
-              la próxima etapa: Entrenamiento del Modelo y Definición del Umbral de Priorización.
+          <div className="card-elevated overflow-hidden p-8 text-center sm:p-12">
+            <h2 className="font-display text-4xl font-bold tracking-tight sm:text-5xl">
+              ¡Gracias por su atención!
+            </h2>
+            <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+              Agradecemos el tiempo dedicado a recorrer los detalles de este proyecto, su propuesta metodológica y el impacto que busca generar.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <span className="inline-flex items-center gap-2 rounded-full surface-deep px-4 py-2 text-sm font-medium">
-                Entrenamiento del Modelo <ArrowRight className="size-4" />
-              </span>
-              <span className="inline-flex items-center gap-2 rounded-full bg-highlight/15 px-4 py-2 text-sm font-medium text-highlight">
-                Umbral de Priorización
-              </span>
-            </div>
           </div>
         </Reveal>
       </section>

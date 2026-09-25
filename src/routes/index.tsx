@@ -24,6 +24,7 @@ import {
   SplitSquareHorizontal,
   Lightbulb,
   CheckCircle2,
+  Users,
 } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 import { cn } from "@/lib/utils";
@@ -217,7 +218,7 @@ function SectionTitle({ eyebrow, title }: { eyebrow: string; title: string }) {
 
 function Index() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <Navbar />
 
       {/* Hero */}
@@ -254,42 +255,75 @@ function Index() {
           </Reveal>
 
           <Reveal delay={320}>
-            <div className="mt-12 border-t border-primary-foreground/15 pt-6">
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-foreground/60">
-                Integrantes
-              </p>
-              <ul className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
-                {MEMBERS.map((name) => (
-                  <li
-                    key={name}
-                    className="flex items-center gap-2 text-sm font-medium text-primary-foreground/90"
-                  >
-                    <span className="size-1.5 rounded-full bg-highlight" />
-                    {name}
-                  </li>
-                ))}
-              </ul>
-              <p className="mt-6 text-xs font-semibold uppercase tracking-[0.18em] text-primary-foreground/60">
-                Docentes
-              </p>
-              <ul className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
-                {TEACHERS.map((name) => (
-                  <li
-                    key={name}
-                    className="flex items-center gap-2 text-sm font-medium text-primary-foreground/75"
-                  >
-                    <span className="size-1.5 rounded-full bg-accent" />
-                    {name}
-                  </li>
-                ))}
-              </ul>
+            <div className="mt-12 grid gap-5 border-t border-primary-foreground/15 pt-8 md:grid-cols-2 lg:gap-8">
+              {/* Docentes */}
+              <div className="flex flex-col justify-between rounded-2xl border border-accent/40 bg-accent/15 p-5 backdrop-blur-md shadow-sm">
+                <div>
+                  <div className="flex items-center gap-2.5">
+                    <span className="grid size-8 place-items-center rounded-lg bg-accent text-accent-foreground shadow-sm">
+                      <GraduationCap className="size-4" />
+                    </span>
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-[0.18em] text-accent-foreground">
+                        Cuerpo Docente
+                      </p>
+                      <p className="text-[11px] text-primary-foreground/75">
+                        Cátedra de Aprendizaje Automático
+                      </p>
+                    </div>
+                  </div>
+                  <ul className="mt-4 flex flex-wrap gap-2">
+                    {TEACHERS.map((name) => (
+                      <li
+                        key={name}
+                        className="inline-flex items-center gap-2 rounded-lg border border-accent/30 bg-primary-foreground/15 px-3 py-1.5 text-sm font-semibold text-primary-foreground backdrop-blur-sm"
+                      >
+                        <span className="size-2 rounded-full bg-accent" />
+                        {name}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              {/* Integrantes */}
+              <div className="flex flex-col justify-between rounded-2xl border border-primary-foreground/20 bg-primary-foreground/10 p-5 backdrop-blur-md shadow-sm">
+                <div>
+                  <div className="flex items-center gap-2.5">
+                    <span className="grid size-8 place-items-center rounded-lg bg-highlight/25 text-highlight shadow-sm">
+                      <Users className="size-4" />
+                    </span>
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-foreground/90">
+                        Integrantes del Grupo
+                      </p>
+                      <p className="text-[11px] text-primary-foreground/75">
+                        Grupo 33
+                      </p>
+                    </div>
+                  </div>
+                  <ul className="mt-4 flex flex-wrap gap-2">
+                    {MEMBERS.map((name) => (
+                      <li
+                        key={name}
+                        className="inline-flex items-center gap-2 rounded-lg border border-primary-foreground/15 bg-primary-foreground/10 px-3 py-1.5 text-sm font-medium text-primary-foreground/95 backdrop-blur-sm"
+                      >
+                        <span className="size-1.5 rounded-full bg-highlight" />
+                        {name}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
             </div>
           </Reveal>
         </div>
       </section>
 
-      {/* Contexto */}
-      <section id="contexto" className="mx-auto max-w-6xl px-5 py-24">
+      {/* Secciones inferiores con fondo claro */}
+      <main className="bg-background text-foreground">
+        {/* Contexto */}
+        <section id="contexto" className="mx-auto max-w-6xl px-5 py-24">
         <div className="grid items-start gap-12 lg:grid-cols-2">
           <Reveal>
             <SectionTitle eyebrow="01 — Contexto" title="Contexto y Problema" />
@@ -498,11 +532,12 @@ function Index() {
         </Reveal>
       </section>
 
-      <footer className="border-t border-border py-8">
-        <div className="mx-auto max-w-6xl px-5 text-sm text-muted-foreground">
-          Grupo 33 · Aprendizaje Automático · Universidad del Gran Rosario (UGR)
-        </div>
-      </footer>
+        <footer className="border-t border-border py-8">
+          <div className="mx-auto max-w-6xl px-5 text-sm text-muted-foreground">
+            Grupo 33 · Aprendizaje Automático · Universidad del Gran Rosario (UGR)
+          </div>
+        </footer>
+      </main>
     </div>
   );
 }

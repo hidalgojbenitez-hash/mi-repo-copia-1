@@ -155,8 +155,9 @@
     border-color: var(--color-border);
   }
 
+  html,
   body {
-    background-color: var(--color-background);
+    background-color: oklch(0.28 0.09 262);
     color: var(--color-foreground);
     font-family: var(--font-sans);
   }
@@ -199,4 +200,44 @@
   background-image: radial-gradient(oklch(1 0 0 / 0.12) 1px, transparent 1px);
   background-size: 22px 22px;
 }
+
+/*
+ * Scrollbar transparente: el fondo/track no tiene color ni opacidad,
+ * integrándose de forma 100% limpia tanto en la sección Inicio (azul oscuro)
+ * como en el resto de las secciones claras de la landing page.
+ */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(145, 155, 185, 0.45) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-track-piece {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(145, 155, 185, 0.45);
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  transition: background-color 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(145, 155, 185, 0.75);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
 

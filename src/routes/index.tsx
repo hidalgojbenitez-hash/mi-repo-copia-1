@@ -19,11 +19,6 @@ import {
   Wifi,
   Menu,
   X,
-  Shuffle,
-  AlertTriangle,
-  SplitSquareHorizontal,
-  Lightbulb,
-  CheckCircle2,
   Users,
 } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
@@ -60,7 +55,6 @@ const NAV = [
   { id: "inicio", label: "Inicio" },
   { id: "contexto", label: "Contexto" },
   { id: "objetivo", label: "Objetivo" },
-  { id: "hallazgo", label: "Hallazgo" },
   { id: "metodologia", label: "Metodología" },
   { id: "variables", label: "Variables" },
   { id: "proximos-pasos", label: "Próximos pasos" },
@@ -94,30 +88,6 @@ const STEPS = [
     step: "Paso 3",
     title: "Filtrado de Variables",
     body: "De 403 variables iniciales se eliminó el ruido y la fuga de información, por ejemplo la dificultad para pagar otros servicios como luz o agua.",
-  },
-];
-
-const EVIDENCE = [
-  {
-    icon: Shuffle,
-    title: "Prueba Cruzada",
-    metric: "AUC ≈ 0.55",
-    note: "Rinde al nivel del azar",
-    body: "Entrenar en un año y evaluar en el otro rinde al nivel del azar; el patrón no transfiere entre coyunturas tarifarias.",
-  },
-  {
-    icon: AlertTriangle,
-    title: "Atajo Predictivo",
-    metric: "El año domina",
-    note: "Clasifica el tiempo, no el perfil",
-    body: "Al unirlas, el año se vuelve la variable principal: el modelo clasifica el tiempo, no el perfil vulnerable.",
-  },
-  {
-    icon: SplitSquareHorizontal,
-    title: "Clasificador de Edición",
-    metric: "AUC = 0.87",
-    note: "Poblaciones distinguibles",
-    body: "Las dos ediciones resultan poblaciones distinguibles; el ajuste de 2016 alteró el fenómeno estructural.",
   },
 ];
 
@@ -411,55 +381,6 @@ function Index() {
               </p>
             </blockquote>
           </Reveal>
-        </div>
-      </section>
-
-      {/* Hallazgo */}
-      <section id="hallazgo" className="py-24">
-        <div className="mx-auto max-w-6xl px-5">
-          <div className="rounded-3xl border border-border bg-gradient-to-b from-secondary/70 to-background p-6 shadow-[var(--shadow-card)] sm:p-12">
-            <Reveal>
-              <span className="inline-flex items-center gap-2 rounded-full bg-highlight/15 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-highlight">
-                <Lightbulb className="size-3.5" /> Hallazgo Metodológico Central
-              </span>
-              <h2 className="mt-5 max-w-3xl text-3xl font-bold sm:text-4xl">
-                Decisión Clave: No Combinar Ediciones
-              </h2>
-              <p className="mt-5 max-w-3xl text-lg leading-relaxed text-muted-foreground">
-                Evidencia empírica frente al dilema de volumen vs. coyuntura
-              </p>
-            </Reveal>
-
-            <div className="mt-10 grid gap-5 md:grid-cols-3">
-              {EVIDENCE.map((e, i) => (
-                <Reveal key={e.title} delay={i * 120}>
-                  <article className="card-elevated flex h-full flex-col p-6">
-                    <div className="flex items-center gap-3">
-                      <span className="grid size-10 place-items-center rounded-lg bg-primary/10 text-primary">
-                        <e.icon className="size-5" />
-                      </span>
-                      <h3 className="text-base font-semibold leading-snug">{e.title}</h3>
-                    </div>
-                    <p className="mt-6 font-display text-3xl font-bold text-primary">{e.metric}</p>
-                    <p className="mt-1 text-xs font-semibold uppercase tracking-[0.14em] text-highlight">
-                      {e.note}
-                    </p>
-                    <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{e.body}</p>
-                  </article>
-                </Reveal>
-              ))}
-            </div>
-
-            <Reveal delay={200}>
-              <div className="mt-8 flex gap-4 rounded-2xl border-l-4 border-highlight bg-highlight/10 p-6">
-                <CheckCircle2 className="size-6 shrink-0 text-highlight" />
-                <p className="font-display text-lg leading-relaxed">
-                  El modelo se delimita exclusivamente a 2016 con respaldo cuantitativo, no por
-                  comodidad.
-                </p>
-              </div>
-            </Reveal>
-          </div>
         </div>
       </section>
 

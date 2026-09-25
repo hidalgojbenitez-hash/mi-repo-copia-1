@@ -73,6 +73,8 @@ const MEMBERS = [
   "Juan Marcos Payetta",
 ];
 
+const TEACHERS = ["Fabiana Escobar", "Ana María Nardin", "Lujan Cazenabe"];
+
 const STEPS = [
   {
     icon: Brush,
@@ -263,6 +265,20 @@ function Index() {
                     className="flex items-center gap-2 text-sm font-medium text-primary-foreground/90"
                   >
                     <span className="size-1.5 rounded-full bg-highlight" />
+                    {name}
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-6 text-xs font-semibold uppercase tracking-[0.18em] text-primary-foreground/60">
+                Docentes
+              </p>
+              <ul className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
+                {TEACHERS.map((name) => (
+                  <li
+                    key={name}
+                    className="flex items-center gap-2 text-sm font-medium text-primary-foreground/75"
+                  >
+                    <span className="size-1.5 rounded-full bg-accent" />
                     {name}
                   </li>
                 ))}
